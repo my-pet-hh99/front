@@ -1,8 +1,15 @@
+import React from "react"
+import Layout from "../components/common/Layout"
+import Modal from "../components/common/Modal"
+
+//components
+import Header from '../components/Header'
+
 const Main = () => {
     return (
-        <div>
-            나는 메인
-        </div>
+        <Layout>
+            <Header/>
+        </Layout>
     )
 }
 
