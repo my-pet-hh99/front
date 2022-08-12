@@ -33,8 +33,8 @@ const StHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  padding: 20px;
+  width: 800px;
+  padding: 15px 0px;
 `
 
 const StHeaderlogo = styled.div`
@@ -61,7 +61,7 @@ const StNavLi = styled.li`
   cursor: pointer;
   &:hover{
     font-weight: bold;
-    color: #fd284c;
+    color: #fc93a5;
   }
 `
 
