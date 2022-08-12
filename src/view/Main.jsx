@@ -1,16 +1,25 @@
 import React from "react"
+import styled from "styled-components"
 import Layout from "../components/common/Layout"
-import Modal from "../components/common/Modal"
 
 //components
 import Header from '../components/Header'
+import PostInput from "../components/main/PostInput"
 
 const Main = () => {
     return (
         <Layout>
-            <Header/>
+            <MainLayout>
+                <Header/>
+                <PostInput/>
+            </MainLayout>
         </Layout>
     )
 }
 
 export default Main
+
+const MainLayout = styled.div`
+    display: flex;
+    flex-direction: column;
+`
