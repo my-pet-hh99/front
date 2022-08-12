@@ -17,7 +17,7 @@ const FormInner = (props) => {
     }
 
     // 정규식 구역
-    const regEmail = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
+    const regEmail = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
     const regPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/
 
     // register 옵션
@@ -64,6 +64,7 @@ const FormInner = (props) => {
                     if(regEmail.test(target.value)){
                         htRef.current.innerText = '이메일 입력 완료!'
                         htRef.current.style.color = 'green'
+                        console.log(target.value)
                     } else {
                         htRef.current.innerText = '이메일 양식이 이상한데..?'
                     }

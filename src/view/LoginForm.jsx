@@ -27,7 +27,7 @@ const LoginForm = () => {
                     return <FormInner type={type} index={i} register={register} pathname={pathname} key={type}/>
                 })}
                 <div className='fcc'>
-                    <SubmitBtn>{pathnameCheck ? '회원가입' : '로그인'}</SubmitBtn>
+                    <SubmitBtn disabled={ isSubmitting }>{pathnameCheck ? '회원가입' : '로그인'}</SubmitBtn>
                 </div>
             </FormArea>
         </LoginLayout>
