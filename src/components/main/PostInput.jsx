@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import ModalPopup from "../common/ModaPopupl";
+import ModalPopup from "../common/ModalPopup";
 
 
 const PostInput = () => {
@@ -19,9 +19,7 @@ const PostInput = () => {
 
   return(
     <>
-      <StPostModalBtn
-        onClick={openModal}
-      >
+      <StPostModalBtn onClick={openModal}>
         <p>내 새끼 자랑하는 글을 써보세요! 🐶🐹🐱🐰</p>
       </StPostModalBtn>
       <ModalPopup isOpen={isOpen} closeModal={closeModal} />
@@ -36,7 +34,7 @@ const StPostModalBtn = styled.button`
   border-radius: 20px;
   width: 550px;
   height: 50px;
-  margin: auto;
+  margin: 20px auto;
   padding-left: 20px;
   font-size: 15px;
   background: none;
