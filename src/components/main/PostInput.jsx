@@ -1,19 +1,30 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import Modal from "../common/Modal";
+import ModalPopup from "../common/ModaPopupl";
 
 
 const PostInput = () => {
-let [modal, setModal] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+
+
+  const openModal = () => {
+    setIsOpen(true);
+  }
+
+  const closeModal = () => {
+    setIsOpen(false);
+  }
 
 
   return(
     <>
-      <StPostModalBtn>
-        <p>내 새끼 자랑글 올리기</p>
+      <StPostModalBtn
+        onClick={openModal}
+      >
+        <p>내 새끼 자랑하는 글을 써보세요! 🐶🐹🐱🐰</p>
       </StPostModalBtn>
-      {/* <Modal/> */}
+      <ModalPopup isOpen={isOpen} closeModal={closeModal} />
     </>
   )
 }
