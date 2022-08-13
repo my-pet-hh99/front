@@ -68,7 +68,8 @@ const ModalPopup = ({isOpen, closeModal}) => {
             }}
           />
           <StModalText
-            placeholder="🐹 내용을 입력하세요"
+            maxLength={150}
+            placeholder="내용을 입력하세요. (최대 150자)"
             onChange={(e) => {
               const {value} = e.target;
               setPost({...post, text: value,},{});
@@ -138,6 +139,7 @@ const StModalFileUpload = styled.input`
 `
 
 const StModalText = styled.textarea`
+  resize: none;
   width: 300px;
   height: 120px;
   border: solid 5px #ffffff;

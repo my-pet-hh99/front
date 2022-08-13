@@ -5,6 +5,7 @@ import Layout from "../components/common/Layout"
 //components
 import Header from '../components/Header'
 import PostInput from "../components/main/PostInput"
+import PostCard from "../components/main/PostCard"
 
 const Main = () => {
     return (
@@ -12,6 +13,7 @@ const Main = () => {
             <MainLayout>
                 <Header/>
                 <PostInput/>
+                <PostCard/>
             </MainLayout>
         </Layout>
     )
