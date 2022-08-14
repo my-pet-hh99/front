@@ -1,12 +1,11 @@
 import { useRef } from "react"
 import styled from "styled-components"
 
+import { emailDoubleCheck } from "../../../axios/loginAPI"
 
 const FormInner = (props) => {
     const htRef = useRef()
     const pwHtRef = useRef()
-
-    const pathnameCheck = props.pathname === '/signup'
 
     // inputType 및 변수명으로 변환
     const title = {
@@ -23,32 +22,32 @@ const FormInner = (props) => {
     // register 옵션
     const registerOpt = {
         'email': {
-            required: "필수 입력",
+            required: true,
             pattern: {
                 value: regEmail,
             }
         },
         'password' : {
-            required: "필수 입력",
+            required: true,
             pattern: {
                 value: regPw,
             }
         },
         // 다음엔 validate를 이용해보도록 => 유용한 속성
         'doubleCheck' : {
-            required: "필수 입력",
+            required: true,
             pattern: {
                 value: regPw,
             }
         },
         'nickname' : {
-            required: "필수 입력",
+            required: true,
             maxLength: {
                 value: 8,
             }
         },
         'answer' : {
-            required: "필수 입력"
+            required: true
         }
     }
 
@@ -62,9 +61,15 @@ const FormInner = (props) => {
             switch(target.name) {
                 case 'email':
                     if(regEmail.test(target.value)){
-                        htRef.current.innerText = '이메일 입력 완료!'
-                        htRef.current.style.color = 'green'
-                        console.log(target.value)
+                        const res = emailDoubleCheck(target.value)
+                        res.then((ok) => {
+                            if(!ok) {
+                                htRef.current.innerText = '이메일 입력 완료!'
+                                htRef.current.style.color = 'green'
+                            } else {
+                                htRef.current.innerText = '이미 존재하는 이메일입니다!'
+                            }
+                        })
                     } else {
                         htRef.current.innerText = '이메일 양식이 이상한데..?'
                     }
@@ -121,6 +126,13 @@ const FormInner = (props) => {
     return (
         <Container>
             <Title>{title[props.type]}</Title>
+
+            {props.type === 'answer' && pathnameCheck ? 
+            <Question>
+                <option defaultValue>출생지가 어디인가요?</option>
+                <option disabled>아직 다른 질문은 없어요!</option>
+            </Question> : '' }
+
             <input
             {...props.register(props.type, registerOpt[props.type])}
             type={props.type === 'nickname' || props.type === 'answer' ? 'text': props.type}
@@ -167,4 +179,16 @@ const HelpText = styled.p`
     font-size: 10px;
 `
 
+const Question = styled.select`
+    appearance: none;
+    outline: none;
+
+    padding: 10px;
+    border: 1px solid rgb(255,204,204);
+    border-radius: 25px;
+
+    & > option {
+       background: rgba(255,204,204,.3);
+    }
+`
 export default FormInner
