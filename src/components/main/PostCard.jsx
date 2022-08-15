@@ -9,15 +9,42 @@ import logo from '../../src_assets/logo.png'
 const PostCard = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
-
+  const [offset, setOffset] = useState(0);
 
   const getPosts = async () => {
-    const {data} = await axios.get('http://localhost:3001/posts');
-    setPosts(data);
+    try { 
+      const {data} = await axios.get(`http://localhost:3001/posts`);
+      // const {data} = await axios.get(`/api/post?offset=${offset}`);
+      console.log('offset =', offset)
+      setPosts(data);
+    } catch {
+      console.error('fetching error');
+    }
   }
+
+  // 스크롤 이벤트 감지
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+    // console.log('스크롤 이벤트 발생');
+
+    if (scrollTop + clientHeight >= scrollHeight) {
+      // console.log('페이지 끝에 스크롤이 닿았음');
+      setOffset((prev) => prev + 1);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   useEffect(() => {getPosts()}, []);
 
+  console.log(offset)
 
   return(
     <>
