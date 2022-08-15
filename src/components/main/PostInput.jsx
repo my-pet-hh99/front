@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import ModalPopup from "../common/ModalPopup";
+import ModalPopup from "./ModalPopup";
 
 
 const PostInput = () => {

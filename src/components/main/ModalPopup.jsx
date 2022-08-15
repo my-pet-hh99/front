@@ -34,8 +34,12 @@ const ModalPopup = ({isOpen, closeModal}) => {
   // post 저장
   const onSubmitHandler = (post) => {
     axios.post('http://localhost:3001/post', post)
-    alert('포스팅 성공')
-    navigate('/')
+    .then( res => {
+      console.log(res)
+      alert('포스팅 성공')
+      navigate('/')
+    })
+    .catch( err => {console.log(err)})
   };
 
 
@@ -47,7 +51,8 @@ const ModalPopup = ({isOpen, closeModal}) => {
         ariaHideApp={false}
     >
         <StModalForm
-          onSubmit={(e)=>{onSubmitHandler(post)}}
+          onSubmit={(e)=>{
+            onSubmitHandler(post)}}
         >
           <StModalImage>
             {

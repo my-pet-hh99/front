@@ -1,31 +1,54 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import styled from "styled-components";
 import logo from '../../src_assets/logo.png'
 
 const PostCard = () => {
+  const navigate = useNavigate();
+  const [posts, setPosts] = useState([]);
+
+
+  const getPosts = async () => {
+    const {data} = await axios.get('http://localhost:3001/posts');
+    setPosts(data);
+  }
+
+  useEffect(() => {getPosts()}, []);
+
+
   return(
-    <StPostCard>
-      <StPostCardHead>
-        <h3>집사</h3>
-        <p>8월 13일</p>
-      </StPostCardHead>
-      <StPostImage src={logo} alt='이미지를 불러올 수 없습니다'/>
-      <StPostText>
-        내용이 들어갑니다.
-        내용이 들어갑니다.
-        내용이 들어갑니다.
-        내용이 들어갑니다.
-        내용이 들어갑니다.
-        내용이 들어갑니다.
-        내용이 들어갑니다.
-        내용이 들어갑니다.
-      </StPostText>
-    </StPostCard>
+    <>
+      {
+        posts.map((post)=> {
+          return (
+          <StPostCard key={post.postId} 
+            onClick={()=>{navigate(`/detail/${post.postId}`)}}
+          >
+            <StPostCardHead>
+              <h3>{post.author}</h3>
+              <p>{post.updatedAt}</p>
+            </StPostCardHead>
+            <StPostImage src={logo} alt='이미지를 불러올 수 없습니다'/>
+            <StPostText>
+              {post.text}
+            </StPostText>
+          </StPostCard>
+        )}).reverse()
+      }
+    </>
   )
 }
 
 export default PostCard
+
+const StPostList = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+`
 
 const StPostCard = styled.div`
   width: 400px;
