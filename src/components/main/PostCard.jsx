@@ -13,7 +13,7 @@ const PostCard = () => {
 
   const getPosts = async () => {
     try { 
-      const {data} = await axios.get(`http://localhost:3001/posts`);
+      const {data} = await axios.get(`http://localhost:3001/posts?offset=${offset}`);
       // const {data} = await axios.get(`/api/post?offset=${offset}`);
       console.log('offset =', offset)
       setPosts(data);
@@ -22,15 +22,13 @@ const PostCard = () => {
     }
   }
 
-  // 스크롤 이벤트 감지
+  // 스크롤 이벤트
   const handleScroll = () => {
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
-    // console.log('스크롤 이벤트 발생');
 
     if (scrollTop + clientHeight >= scrollHeight) {
-      // console.log('페이지 끝에 스크롤이 닿았음');
       setOffset((prev) => prev + 1);
     }
   };
@@ -42,9 +40,7 @@ const PostCard = () => {
     };
   }, []);
 
-  useEffect(() => {getPosts()}, []);
-
-  console.log(offset)
+  useEffect(() => {getPosts()}, [offset]);
 
   return(
     <>
