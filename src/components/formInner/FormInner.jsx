@@ -1,7 +1,7 @@
 import { useRef, useState } from "react"
 import styled from "styled-components"
 
-import { emailDoubleCheck } from "../../axios/loginAPI"
+import { emailDoubleCheck } from "../../api/loginAPI"
 
 const FormInner = (props) => {
     const htRef = useRef()
@@ -18,7 +18,7 @@ const FormInner = (props) => {
 
     // 정규식
     let reg = null
-    if(props.type === 'email') reg = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
+    if(props.type === 'email') reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
     else if (props.type === 'password') reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/
 
     // HelpText 내용
