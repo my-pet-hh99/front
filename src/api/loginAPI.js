@@ -59,7 +59,7 @@ export const logout = async () => {
 
 export const getUserInfo = async () => {
     try {
-        // const res = await axios.get('/users')
+        const res = await axios.get('/users')
         // return res.data
     } catch (err) {
 
