@@ -6,6 +6,7 @@ import { emailDoubleCheck } from "../../api/loginAPI"
 const FormInner = (props) => {
     const htRef = useRef()
     const pwHtRef = useRef()
+    const [checkEmail, setCheckEmail] = useState('')
     const [ready, setReady] = useState(false)
 
     // type -> 타이틀
@@ -18,7 +19,7 @@ const FormInner = (props) => {
 
     // 정규식
     let reg = null
-    if(props.type === 'email') reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
+    if(props.type === 'email') reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/
     else if (props.type === 'password') reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/
 
     // HelpText 내용
@@ -70,14 +71,21 @@ const FormInner = (props) => {
     // 중복체크
     const matchCheck = (e) => {
         const target = e.target
-        if(target.name === 'email'){
-            emailDoubleCheck(target.value).then(res => {
-                setReady(!res)
-                if(res) {
-                    htRef.current.innerText = helpText[props.type + 'Check']
-                    htRef.current.style.color = 'red'
-                }
-            })
+        if(target.name === 'email') {
+            if(reg.test(target.value) && checkEmail !== target.value) {
+                emailDoubleCheck(target.value)
+                .then(res => {
+                    setReady(!res)
+                    setCheckEmail(target.value)
+                    if(res) {
+                        htRef.current.innerText = helpText[props.type + 'Check']
+                        htRef.current.style.color = 'red'
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            }
         } else {
             if(!target.value) {
                 pwHtRef.current.style.color = 'red'
@@ -112,7 +120,7 @@ const FormInner = (props) => {
         }
     } else if (props.type === 'nickname') {
         registerOpt.maxLength = {
-            value: 8,
+            value: 10,
         }
     }
     for (let opt in registerOpt) {
@@ -141,7 +149,7 @@ const FormInner = (props) => {
                 <Title>비밀번호 재확인</Title>
                 <input
                 type={props.type}
-                {...props.register('doubleCheck', {
+                {...props.register('confirm', {
                     required: helpText.noneData,
                     onChange: matchCheck,
                     validate: {

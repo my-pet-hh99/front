@@ -1,14 +1,17 @@
 import styled from 'styled-components'
 import { useForm } from "react-hook-form"
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
 import Layout from '../components/common/Layout'
 import FormInner from '../components/formInner/FormInner'
 import { login, signup } from '../api/loginAPI'
-import { successAlert } from '../util/swal'
+import { errorAlert, successAlert } from '../util/swal'
+import { SET_TOKEN } from '../redux/modules/user'
 
 const LoginForm = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const pathname = useLocation().pathname
     const pathnameCheck = pathname === '/signup'
     const inputType = pathnameCheck ? ['email', 'nickname', 'password', 'answer'] : ['email', 'password']
@@ -20,14 +23,20 @@ const LoginForm = () => {
 
     const submitCallback = (data) => {
         const answer = pathnameCheck ? signup(data) : login(data)
-        // answer.then(result => {
-        //     const al = result ? successAlert(pathname) : ''
-        //     al.then(result => {
-        //         if(result.isConfirmed) {
-        //             navigate("/")
-        //         }
-        //     })
-        // })
+        answer.then(answer => {
+            let isSuccess = answer.result
+            if(!pathnameCheck) {
+                dispatch(SET_TOKEN(answer.accessToken))
+            }
+            const al = isSuccess ? successAlert(pathname) : errorAlert(pathname)
+            al.then(result => {
+                if(result.isConfirmed) {
+                    navigate("/")
+                } else {
+                    // 아니오 눌렀을때
+                }
+            })
+        })
     }
 
     return (
