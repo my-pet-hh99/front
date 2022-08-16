@@ -1,8 +1,8 @@
 import AWS from 'aws-sdk';
 
 const OnFileUpload = (e) => {
-    const ACCESS_KEY = "AKIASMFEBMNXERVNX4XG";
-    const SECRET_ACCESS_KEY = "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";
+    const ACCESS_KEY = process.env.ACCESS_KEY;
+    const SECRET_ACCESS_KEY = process.env.SECRET_KEY;
     const REGION = "ap-northeast-2";
     const S3_BUCKET = "mypet-upload-image";
 
