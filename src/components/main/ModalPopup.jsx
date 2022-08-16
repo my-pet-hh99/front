@@ -3,8 +3,9 @@ import styled from "styled-components";
 import Modal from "react-modal"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import logo from '../../src_assets/logo.png'
+import OnFileUpload from "../../s3/FileUpload";
 
 const ModalPopup = ({isOpen, closeModal}) => {
   const navigate = useNavigate();
@@ -15,7 +16,6 @@ const ModalPopup = ({isOpen, closeModal}) => {
     text: ""
   });
 
-  
   //image 미리보기
   const [change, setChange] = useState(false);
   const [imageSrc, setImageSrc] = useState();
@@ -39,6 +39,7 @@ const ModalPopup = ({isOpen, closeModal}) => {
       alert('포스팅 성공')
       navigate('/')
     })
+
     .catch( err => {console.log(err)})
   };
 
@@ -63,12 +64,12 @@ const ModalPopup = ({isOpen, closeModal}) => {
           </StModalImage>
           <StModalFileUpload
             type='file'
-            accept="image/*"
+            accept="image/jpeg, image/jpg, image/png"
             onChange={(e) => {
+              OnFileUpload(e)
               readFile(e.target.files[0])
-              setPost(
-                {...post, imageUrl: e.target.files[0].name}
-              );
+              console.log(e.target.files[0].name)
+              setPost({...post, imageUrl:`https://mypet-upload-image.s3.ap-northeast-2.amazonaws.com/${e.target.files[0].name}`},{});
               setChange(true)
             }}
           />
@@ -77,7 +78,7 @@ const ModalPopup = ({isOpen, closeModal}) => {
             placeholder="내용을 입력하세요. (최대 150자)"
             onChange={(e) => {
               const {value} = e.target;
-              setPost({...post, text: value,},{});
+              setPost({...post, text: value},{});
             }}
           />
           <StModalBtns>

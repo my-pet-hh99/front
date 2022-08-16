@@ -5,6 +5,7 @@ import axios from "axios";
 
 import styled from "styled-components";
 import logo from '../../src_assets/logo.png'
+import { isDisabled } from "@testing-library/user-event/dist/utils";
 
 const PostCard = () => {
   const navigate = useNavigate();
@@ -52,11 +53,17 @@ const PostCard = () => {
           >
             <StPostCardHead>
               <h3>{post.author}</h3>
-              <p>{post.updatedAt}</p>
+              <p>
+                {post.createdAt}
+              </p>
             </StPostCardHead>
             <StPostImage src={logo} alt='이미지를 불러올 수 없습니다'/>
             <StPostText>
               {post.text}
+              {
+                `${post.createdAt}`!==`${post.updatedAt}` ?
+                <p>● 수정됨</p> : null
+              }
             </StPostText>
           </StPostCard>
         )}).reverse()
@@ -66,12 +73,6 @@ const PostCard = () => {
 }
 
 export default PostCard
-
-const StPostList = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-`
 
 const StPostCard = styled.div`
   width: 400px;
@@ -108,7 +109,14 @@ const StPostImage = styled.img`
 
 const StPostText = styled.div`
   width: 340px;
-  height: 300px;
+  height: 90px;
   margin: 5px auto;
   padding: 5px;
+
+  & p{
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 13px;
+      color: #bdbdbd;
+    }
 `
