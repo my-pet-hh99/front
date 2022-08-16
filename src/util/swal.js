@@ -21,7 +21,7 @@ export const errorAlert = (type) => {
     return Swal.fire({
         icon: "error",
         title: titleText[type] + " 실패",
-        text: "새로 시도하시겠슴까?",
+        text: "홈 화면으로 이동하시겠습니까?",
         showCancelButton: true,
         confirmButtonText: "예",
         cancelButtonText: "아니오",
