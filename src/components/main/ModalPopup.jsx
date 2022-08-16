@@ -7,6 +7,7 @@ import { useState, useRef } from "react";
 import logo from '../../src_assets/logo.png'
 import OnFileUpload from "../../s3/FileUpload";
 
+
 const ModalPopup = ({isOpen, closeModal}) => {
   const navigate = useNavigate();
 
@@ -62,6 +63,7 @@ const ModalPopup = ({isOpen, closeModal}) => {
             }
           </StModalImage>
           <StModalFileUpload
+            required="true"
             type='file'
             accept="image/jpeg, image/jpg, image/png"
             onChange={(e) => {
@@ -72,6 +74,7 @@ const ModalPopup = ({isOpen, closeModal}) => {
             }}
           />
           <StModalText
+            required="true"
             maxLength={150}
             placeholder="내용을 입력하세요. (최대 150자)"
             onChange={(e) => {
