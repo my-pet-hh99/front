@@ -8,6 +8,7 @@ import FormInner from '../components/formInner/FormInner'
 import { login, signup } from '../api/loginAPI'
 import { errorAlert, successAlert } from '../util/swal'
 import { SET_TOKEN } from '../redux/modules/user'
+import Header from '../components/Header'
 
 const LoginForm = () => {
     const navigate = useNavigate()
@@ -41,6 +42,7 @@ const LoginForm = () => {
 
     return (
         <LoginLayout>
+            <Header/>
             <FormArea onSubmit={handleSubmit(submitCallback)}>
                 {inputType.map(type => {
                     return <FormInner 
@@ -59,6 +61,7 @@ const LoginForm = () => {
 
 const LoginLayout = styled(Layout)`
     margin-top: 30px;
+    flex-flow: column;
 `
 
 const FormArea = styled.form`

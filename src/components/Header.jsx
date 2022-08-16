@@ -1,25 +1,45 @@
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 //assets
 import logo from '../src_assets/logo.png'
+import { logout } from "../api/loginAPI";
+import { useDispatch, useSelector } from "react-redux";
+import { removeCookie } from "../util/cookie";
+import { DELETE_TOKEN } from "../redux/modules/user";
 
 const Header = () => {
-  const navigate = useNavigate();
-  // const [isLog, setIsLog] = useState(true)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const getUser = useSelector(state => state.user.loginUser)
+  const [user, setUser] = useState(getUser)
 
-
+  // 로그아웃용
+  const logoutHandler = () => {
+    logout()
+    .then(answer => {
+      if(answer) {
+        dispatch(DELETE_TOKEN())
+        removeCookie('refreshToken')
+        window.location.reload()
+      }
+    })
+  }
   return (
     <StHeader>
       <StHeaderlogo onClick={() => navigate("/")}/>
       <StNavContainer>
         <StNavUl>
-          <StNavLi onClick={() => navigate("/")}>
-            <div>마이페이지</div>
+          <StNavLi onClick={() => 
+              navigate(user ? "/mypage" : "/signup")
+            }>
+            <div>{user ? '마이페이지' : '회원가입'}</div>
           </StNavLi>
-          <StNavLi onClick={() => navigate("/")}>
-            <div>로그아웃</div>
+          <StNavLi onClick={() => {
+              user ? logoutHandler() : navigate("/login")
+            }}>
+            <div>{user ? '로그아웃' : '로그인'}</div>
           </StNavLi>
         </StNavUl>
       </StNavContainer>

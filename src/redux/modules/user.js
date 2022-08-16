@@ -10,7 +10,7 @@ export const onSilentRefresh = createAsyncThunk(
       try {
         const user = api.getState().user
         const today = new Date().getTime()
-        
+
         let flag = false
         if(user.accessToken) {
             if(user.expireTime < today - 300000) flag = true
