@@ -1,52 +1,23 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
+import { useSelector, useDispatch } from "react-redux";
+import { getPosts } from "../../redux/modules/posts";
 import styled from "styled-components";
 import logo from '../../src_assets/logo.png'
-import { isDisabled } from "@testing-library/user-event/dist/utils";
 
-const PostCard = () => {
+const PostList = () => {
   const navigate = useNavigate();
-  const [posts, setPosts] = useState([]);
-  const [offset, setOffset] = useState(0);
-
-  const getPosts = async () => {
-    try { 
-      const {data} = await axios.get(`http://localhost:3001/posts?offset=${offset}`);
-      // const {data} = await axios.get(`/api/post?offset=${offset}`);
-      console.log('offset =', offset)
-      setPosts(data);
-    } catch {
-      console.error('fetching error');
-    }
-  }
-
-  // 스크롤 이벤트
-  const handleScroll = () => {
-    const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = document.documentElement.scrollTop;
-    const clientHeight = document.documentElement.clientHeight;
-
-    if (scrollTop + clientHeight >= scrollHeight) {
-      setOffset((prev) => prev + 1);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {getPosts()}, [offset]);
+  const dispatch = useDispatch();
+  
+  useEffect(()=> {dispatch(getPosts())},[])
+  
+  const posts = useSelector((state) => state.posts);
 
   return(
     <>
       {
-        posts.map((post)=> {
+        [...posts]?.map((post)=> {
           return (
           <StPostCard key={post.postId} 
             onClick={()=>{navigate(`/detail/${post.postId}`)}}
@@ -66,13 +37,13 @@ const PostCard = () => {
               }
             </StPostText>
           </StPostCard>
-        )}).reverse()
+        )})
       }
     </>
   )
 }
 
-export default PostCard
+export default PostList
 
 const StPostCard = styled.div`
   width: 400px;
@@ -112,8 +83,11 @@ const StPostText = styled.div`
   height: 90px;
   margin: 5px auto;
   padding: 5px;
-
+  position: relative;
   & p{
+      position: absolute;
+      right: -10px;
+      bottom: 10px;
       margin-top: 10px;
       font-weight: bold;
       font-size: 13px;
