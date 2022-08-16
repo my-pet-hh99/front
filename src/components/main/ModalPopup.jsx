@@ -39,7 +39,6 @@ const ModalPopup = ({isOpen, closeModal}) => {
       alert('포스팅 성공')
       navigate('/')
     })
-
     .catch( err => {console.log(err)})
   };
 
@@ -68,7 +67,6 @@ const ModalPopup = ({isOpen, closeModal}) => {
             onChange={(e) => {
               OnFileUpload(e)
               readFile(e.target.files[0])
-              console.log(e.target.files[0].name)
               setPost({...post, imageUrl:`https://mypet-upload-image.s3.ap-northeast-2.amazonaws.com/${e.target.files[0].name}`},{});
               setChange(true)
             }}
