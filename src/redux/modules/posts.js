@@ -6,12 +6,7 @@ export const getPosts = createAsyncThunk(
   "GET_POSTS",
   async (offset) => {
     try {
-<<<<<<< Updated upstream
-      // const resp = await axios.get(`http://localhost:3001/posts?offset=${offset}`);
-      const {resp} = await axios.get(`/post?offset=${offset}`);
-=======
       const {resp} = await axios.get(`?offset=${offset}`);
->>>>>>> Stashed changes
       return (
         resp.data
       )
