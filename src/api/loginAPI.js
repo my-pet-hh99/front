@@ -6,6 +6,7 @@ import { getCookie, setCookie } from '../util/cookie'
 export const emailDoubleCheck = async (email) => {
     let answer = true
     try {
+
         const res = await axios.get(`/user/email`, {
             params: { email }
         })
