@@ -12,8 +12,7 @@ import { DELETE_TOKEN } from "../redux/modules/user";
 const Header = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const getUser = useSelector(state => state.user.loginUser)
-  const [user, setUser] = useState(getUser)
+  const user = useSelector(state => state.user)
 
   // 로그아웃용
   const logoutHandler = () => {
@@ -22,6 +21,7 @@ const Header = () => {
       if(answer) {
         dispatch(DELETE_TOKEN())
         removeCookie('refreshToken')
+        navigate('/')
         window.location.reload()
       }
     })
@@ -32,14 +32,14 @@ const Header = () => {
       <StNavContainer>
         <StNavUl>
           <StNavLi onClick={() => 
-              navigate(user ? "/mypage" : "/signup")
+              navigate(user.loginUser ? "/mypage" : "/signup")
             }>
-            <div>{user ? '마이페이지' : '회원가입'}</div>
+            <div>{user.loginUser ? '마이페이지' : '회원가입'}</div>
           </StNavLi>
           <StNavLi onClick={() => {
-              user ? logoutHandler() : navigate("/login")
+              user.loginUser ? logoutHandler() : navigate("/login")
             }}>
-            <div>{user ? '로그아웃' : '로그인'}</div>
+            <div>{user.loginUser ? '로그아웃' : '로그인'}</div>
           </StNavLi>
         </StNavUl>
       </StNavContainer>

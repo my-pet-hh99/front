@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 
 import { emailDoubleCheck } from "../../api/loginAPI"
@@ -35,7 +35,7 @@ const FormInner = (props) => {
 
         // 실패용 멘트
         emailDif: '이메일 이상한데..?',
-        nicknameDif: '1자 ~ 8자 사이로 작성해야해요!',
+        nicknameDif: '1자 ~ 10자 사이로 작성해야해요!',
         passwordDif: props.pathnameCheck ? '8자 이상, 특수 문자(@$!%*#?&)와 숫자 각 한개 이상이 필요해요!' : '8자 이상, 특수문자와 숫자 각 1개!',
     
         // dup 멘트
@@ -126,6 +126,11 @@ const FormInner = (props) => {
     for (let opt in registerOpt) {
         if(opt === 'pattern' || opt === 'maxLength' ) registerOpt[opt].message = helpText[props.type + 'Dif']
     }
+
+    // 페이지별 helptext 리셋
+    useEffect(() => {
+        htRef.current.innerText = ''
+    }, [props.pathnameCheck])
 
     return (
         <Container>

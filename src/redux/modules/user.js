@@ -10,7 +10,6 @@ export const onSilentRefresh = createAsyncThunk(
       try {
         const user = api.getState().user
         const today = new Date().getTime()
-
         let flag = false
         if(user.accessToken) {
             if(user.expireTime < today - 300000) flag = true
@@ -19,12 +18,12 @@ export const onSilentRefresh = createAsyncThunk(
         }
         let newAccessToken = null
         if(flag) {
-            const test = await axios.post('/user/token', {'refreshToken': getCookie('refreshToken')})
-            console.log(test)
+            const result = await axios.post('/user/token', {'refreshToken': getCookie('refreshToken')})
+            newAccessToken = result.data.data
         }
         return api.fulfillWithValue(newAccessToken);
       } catch (err) {
-        return api.rejectWithValue(err);
+        return api.rejectWithValue();
       }
     }
   );
@@ -50,11 +49,14 @@ const userSlice = createSlice({
     },
     extraReducers: {
         [onSilentRefresh.fulfilled]: (state, action) => {
-            if(action.payload) state.accessToken = action.payload
+            if(action.payload)  {
+              state.loginUser = jwtDecode(action.payload).userId
+              state.accessToken = action.payload
+              state.expireTime = jwtDecode(action.payload).exp * 1000
+            }
         },
         [onSilentRefresh.rejected]: (state, action) => {
           // 에러대기
-          console.log(action.err)
         }
       },
 })

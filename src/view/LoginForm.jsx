@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import { useForm } from "react-hook-form"
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -20,16 +21,17 @@ const LoginForm = () => {
     // register : name, 옵션 등 설정가능
     // handleSubmit : submit 이벤트시 콜백 함수 실행(인자값으로 form태그내부 데이터 넘겨줌)
     // formState : form 태그 현재 상태 확인 (제출중인지 등 확인), 외에 register 옵션 메시지를 errors로 받을수 있음
-    const {register, handleSubmit, formState: { isSubmitting }} = useForm()
+    const {register, handleSubmit, reset, formState: { isSubmitting }} = useForm()
 
     const submitCallback = (data) => {
         const answer = pathnameCheck ? signup(data) : login(data)
-        answer.then(answer => {
+        answer
+        .then(answer => {
             let isSuccess = answer.result
-            if(!pathnameCheck) {
+            if(answer.accessToken) {
                 dispatch(SET_TOKEN(answer.accessToken))
             }
-            const al = isSuccess ? successAlert(pathname) : errorAlert(pathname)
+            const al = isSuccess ? successAlert(pathname) : errorAlert(pathname, answer.message)
             al.then(result => {
                 if(result.isConfirmed) {
                     navigate("/")
@@ -37,8 +39,11 @@ const LoginForm = () => {
                     // 아니오 눌렀을때
                 }
             })
-        })
+        })        
     }
+    useEffect(() => {
+        reset()
+    }, [pathnameCheck])
 
     return (
         <LoginLayout>
