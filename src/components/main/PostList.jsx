@@ -1,54 +1,43 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
+import { useSelector, useDispatch } from "react-redux";
+import { getPosts } from "../../redux/modules/posts";
+import { useInView } from "react-intersection-observer";
 import styled from "styled-components";
 import logo from '../../src_assets/logo.png'
-import { isDisabled } from "@testing-library/user-event/dist/utils";
 
-const PostCard = () => {
+const PostList = () => {
   const navigate = useNavigate();
-  const [posts, setPosts] = useState([]);
+  const dispatch = useDispatch();
+
+  // 무한스크롤
+  const [lastRef, lastCard] = useInView({
+    threshold: 0.8,
+    triggerOnce: true,
+  });
+
   const [offset, setOffset] = useState(0);
+  
+  useEffect(()=> {
+    dispatch(getPosts(offset))
+    setOffset((prev) => prev+1)
+  },[])
 
-  const getPosts = async () => {
-    try { 
-      const {data} = await axios.get(`http://localhost:3001/posts?offset=${offset}`);
-      // const {data} = await axios.get(`/api/post?offset=${offset}`);
-      console.log('offset =', offset)
-      setPosts(data);
-    } catch {
-      console.error('fetching error');
-    }
-  }
-
-  // 스크롤 이벤트
-  const handleScroll = () => {
-    const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = document.documentElement.scrollTop;
-    const clientHeight = document.documentElement.clientHeight;
-
-    if (scrollTop + clientHeight >= scrollHeight) {
-      setOffset((prev) => prev + 1);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {getPosts()}, [offset]);
+  useEffect(()=> {
+    if (lastCard) {
+    dispatch(getPosts(offset))
+    setOffset((prev) => prev+1)
+  }}, [lastCard])
+  
+  const posts = useSelector((state) => state.posts);
 
   return(
     <>
       {
-        posts.map((post)=> {
+        [...posts]?.map((post)=> {
           return (
-          <StPostCard key={post.postId} 
+          <StPostCard key={post.postId} ref={lastRef} 
             onClick={()=>{navigate(`/detail/${post.postId}`)}}
           >
             <StPostCardHead>
@@ -66,13 +55,13 @@ const PostCard = () => {
               }
             </StPostText>
           </StPostCard>
-        )}).reverse()
+        )})
       }
     </>
   )
 }
 
-export default PostCard
+export default PostList
 
 const StPostCard = styled.div`
   width: 400px;
@@ -112,8 +101,11 @@ const StPostText = styled.div`
   height: 90px;
   margin: 5px auto;
   padding: 5px;
-
+  position: relative;
   & p{
+      position: absolute;
+      right: -10px;
+      bottom: 10px;
       margin-top: 10px;
       font-weight: bold;
       font-size: 13px;
