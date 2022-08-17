@@ -40,6 +40,7 @@ export const login = async (data) => {
         answer.accessToken = tokens.accessToken
         answer.result = res.data.result
     } catch (err) {
+        console.log(err)
         answer.message = err.response.data.message
         answer.result = err.response.data.result
     }
