@@ -6,8 +6,8 @@ import { useDispatch } from 'react-redux'
 
 import Layout from '../components/common/Layout'
 import FormInner from '../components/formInner/FormInner'
-import { login, signup } from '../api/loginAPI'
-import { errorAlert, successAlert } from '../util/swal'
+import { findPassword, login, signup } from '../api/loginAPI'
+import { errorAlert, findPwAlert, successAlert } from '../util/swal'
 import { SET_TOKEN } from '../redux/modules/user'
 import Header from '../components/Header'
 
@@ -41,6 +41,35 @@ const LoginForm = () => {
             })
         })        
     }
+
+    const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/
+    const regPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/
+    const findPw = (event) => {
+        event.preventDefault()
+        findPwAlert().then((result) => {
+            if(result.isConfirmed) {
+                if(!result.value) {
+                    errorAlert('findPw', '전부 입력해야되요!')
+                    return
+                }
+                else if(!regPw.test(result.value.newPassword) || !regEmail.test(result.value.email)) {
+                    errorAlert('findPw', '이메일 혹은 비밀번호 양식이 이상해요!')
+                    return
+                }
+                else {
+                    findPassword(result.value).then(answer => {
+                        if(answer.result) {
+                            successAlert('findPw')
+                        }
+                        else {
+                            errorAlert('findPw', answer.message)
+                        }
+                    })
+                }
+            }
+        })
+    }
+
     useEffect(() => {
         reset()
     }, [pathnameCheck])
@@ -56,8 +85,9 @@ const LoginForm = () => {
                     pathnameCheck={pathnameCheck} 
                     key={type}/>
                 })}
-                <div className='fcc'>
+                <div className='fcc' style={{flexFlow: 'column'}}>
                     <SubmitBtn disabled={ isSubmitting }>{pathnameCheck ? '회원가입' : '로그인'}</SubmitBtn>
+                    { pathnameCheck ? null : <FindPwBtn onClick={findPw}>비밀번호 찾기</FindPwBtn> }
                 </div>
             </FormArea>
         </LoginLayout>
@@ -92,6 +122,22 @@ const SubmitBtn = styled.button`
 
     &:hover {
         background: white;
+        color: rgb(255,204,204);
+    }
+`
+
+const FindPwBtn = styled.button`
+    cursor: pointer;
+    margin-top: 10px;
+    padding: 0;
+    padding-bottom: 5px;
+    border: 0;
+
+    font-size: 12px;
+    color: rgba(0,0,0,.3);
+    text-decoration: underline;
+
+    &:hover {
         color: rgb(255,204,204);
     }
 `
