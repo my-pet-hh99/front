@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { getPosts } from "../../redux/modules/posts";
 import { useInView } from "react-intersection-observer";
 import styled from "styled-components";
-import logo from '../../src_assets/logo.png'
 
 const PostList = () => {
   const navigate = useNavigate();
