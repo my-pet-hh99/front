@@ -17,17 +17,16 @@ const PostInput = () => {
   }
 
   const loginAlert = () => {
-    alert("로그인 이후 이용할 수 있습니다")
+    alert("로그인 이후 이용하실 수 있습니다")
   }
 
   // 로그인 확인
   // const getUser = useSelector(state => state.user.loginUser)
   // const [user, setUser] = useState(getUser)
 
-
   return(
     <>
-      {/* <StPostModalBtn onClick={ user=="" ? loginAlert : openModal }> */}
+      {/* <StPostModalBtn onClick={ 로그인 정보 확인 ? loginAlert : openModal }> */}
       <StPostModalBtn onClick={openModal}>
         <p>내 새끼 자랑하는 글을 써보세요! 🐶🐹🐱🐰</p>
       </StPostModalBtn>

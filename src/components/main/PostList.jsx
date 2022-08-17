@@ -1,16 +1,34 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getPosts } from "../../redux/modules/posts";
+import { useInView } from "react-intersection-observer";
 import styled from "styled-components";
 import logo from '../../src_assets/logo.png'
 
 const PostList = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // 무한스크롤
+  const [lastRef, lastCard] = useInView({
+    threshold: 0.8,
+    triggerOnce: true,
+  });
+
+  const [offset, setOffset] = useState(0);
   
-  useEffect(()=> {dispatch(getPosts())},[])
+  useEffect(()=> {
+    dispatch(getPosts(offset))
+    setOffset((prev) => prev+1)
+  },[])
+
+  useEffect(()=> {
+    if (lastCard) {
+    dispatch(getPosts(offset))
+    setOffset((prev) => prev+1)
+  }}, [lastCard])
   
   const posts = useSelector((state) => state.posts);
 
@@ -19,7 +37,7 @@ const PostList = () => {
       {
         [...posts]?.map((post)=> {
           return (
-          <StPostCard key={post.postId} 
+          <StPostCard key={post.postId} ref={lastRef} 
             onClick={()=>{navigate(`/detail/${post.postId}`)}}
           >
             <StPostCardHead>
