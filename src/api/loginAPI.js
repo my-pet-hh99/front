@@ -30,7 +30,6 @@ export const signup = async (data) => {
 export const login = async (data) => {
     let answer = {
         result: null,
-        accessToken: null,
     }
     try {
         const res = await axios.post('/user/login', data)
@@ -41,6 +40,7 @@ export const login = async (data) => {
         answer.accessToken = tokens.accessToken
         answer.result = res.data.result
     } catch (err) {
+        answer.message = err.response.data.message
         answer.result = err.response.data.result
     }
     return answer
@@ -55,13 +55,4 @@ export const logout = async () => {
         answer.result = err.response.data.result
     }
     return answer
-}
-
-export const getUserInfo = async () => {
-    try {
-        const res = await axios.get('/users')
-        // return res.data
-    } catch (err) {
-
-    }
 }
