@@ -22,7 +22,6 @@ const Header = () => {
         dispatch(DELETE_TOKEN())
         removeCookie('refreshToken')
         navigate('/')
-        window.location.reload()
       }
     })
   }

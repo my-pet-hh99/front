@@ -6,7 +6,7 @@ import { getCookie, setCookie } from '../util/cookie'
 export const emailDoubleCheck = async (email) => {
     let answer = true
     try {
-        const res = await axios.get(`/user/idCheck/`, {
+        const res = await axios.get(`/user/emailCheck/`, {
             params: { email }
         })
         answer = !res.data.result
@@ -49,9 +49,25 @@ export const login = async (data) => {
 export const logout = async () => {
     let answer = { result: null }
     try {
-        const res = await axios.post('/user/logout', {'refreshToken': getCookie('refreshToken')})
+        const res = await axios.delete('/user/logout', {
+            data: {
+                refreshToken: getCookie('refreshToken')
+            }
+        })
         answer.result = res.data.result
     } catch (err) {
+        answer.result = err.response.data.result
+    }
+    return answer
+}
+
+export const findPassword = async (data) => {
+    let answer = { result: null }
+    try {
+        const res = await axios.post('/user/lostPassword', data)
+        answer.result = res.data.result
+    } catch (err) {
+        answer.message = err.response.data.message
         answer.result = err.response.data.result
     }
     return answer
