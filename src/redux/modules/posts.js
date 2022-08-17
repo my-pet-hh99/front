@@ -1,15 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { useState } from "react";
 
 import axios from "axios";
 
 export const getPosts = createAsyncThunk(
   "GET_POSTS",
-  async () => {
+  async (offset) => {
     try {
-      // const [offset, setOffset] = useState(0);
-      const resp = await axios.get("http://localhost:3001/posts");
-      // const {resp} = await axios.get(`/api/post?offset=${offset}`);
+      // const resp = await axios.get(`http://localhost:3001/posts?offset=${offset}`);
+      const {resp} = await axios.get(`/api/post?offset=${offset}`);
       return (
         resp.data
       )
