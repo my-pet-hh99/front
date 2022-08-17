@@ -11,7 +11,7 @@ export const successAlert = (type) => {
     return Swal.fire({
         icon: "success",
         title: titleText[type] + " 성공",
-        text: type !== 'findPw' ? "홈 화면으로 이동합니다" : null,
+        text: (type === 'findPw' || type === 'modify') ? null : "홈 화면으로 이동합니다",
         confirmButtonText: "확인",
     })
 }
