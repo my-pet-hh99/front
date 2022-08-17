@@ -1,42 +1,66 @@
 import styled from "styled-components"
 import { useForm } from "react-hook-form"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
 
 import Layout from "../components/common/Layout"
-import { checkPassword, getUserInfo, modifyUserInfo } from "../api/mypageAPI"
+import { checkPassword, getUserInfo, modifyUserInfo, deleteUser } from "../api/mypageAPI"
 import Header from "../components/Header"
-import { modalAlert } from "../util/swal"
+import { errorAlert, modalAlert, successAlert } from "../util/swal"
+import { DELETE_TOKEN } from "../redux/modules/user"
+import { removeCookie } from "../util/cookie"
 
 const MyPage = () => {
     const [email, setEmail] = useState("")
     const [nickname, setNickname] = useState("")
     const [answer, setAnswer] = useState("")
     const [flag, setFlag] = useState(true)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-    const {register, handleSubmit, setValue ,formState : { isSubmitting }} = useForm()
-
-    
+    const {register, handleSubmit, formState : { isSubmitting }} = useForm()
     
     const toggleModify = (event) => {
         event.preventDefault()
-        modalAlert('password').then(result => {
-            if(result.isConfirmed) {
-                checkPassword(result.value)
-            }
-        })
-        setFlag(!flag)
+        if(flag) {
+            modalAlert('password').then(result => {
+                if(result.isConfirmed) {
+                    checkPassword(result.value).then((answer) => {
+                        if(answer.result){
+                            setFlag(!flag)
+                        }
+                        else {
+                            errorAlert('modify', answer.message)
+                        }
+                    })
+                }
+            })
+        }
+        else {
+            setFlag(!flag)
+        }
     }
 
-    const deleteUser = (event) => {
+    const deleteUserHandler = (event) => {
         event.preventDefault()
         modalAlert('delete').then(result => {
             if(result.isConfirmed) {
-                checkPassword(result.value)
+                deleteUser(result.value).then((answer) => {
+                    if(answer.result){
+                        dispatch(DELETE_TOKEN())
+                        removeCookie('refreshToken')
+                        navigate('/')
+                    }
+                    else {
+                        errorAlert('delete', answer.message)
+                    }
+                })
             }
         })
     }
 
-    const modifyData = (data) => {
+    const modifyDataHandler = (data) => {
         const submitData = {
             nickname,
             answer,
@@ -61,7 +85,7 @@ const MyPage = () => {
     return (
         <MyPageLayout>
             <Header/>
-            <UserInfoArea onSubmit={handleSubmit(modifyData)}>
+            <UserInfoArea onSubmit={handleSubmit(modifyDataHandler)}>
                 <div className="fcc" style={{justifyContent: 'flex-start'}}>
                     <Profile src="https://t1.daumcdn.net/cfile/tistory/99E4E74F5F0FAA4E1E"/>
                     <UserInfo bgColor={flag ? 'inherit' : 'white'}>
@@ -98,7 +122,7 @@ const MyPage = () => {
                 </div>
                 <BtnArea className="fcc">
                     <InputBtn onClick={toggleModify}>{flag ? '수정' : '취소'}</InputBtn>
-                    <InputBtn onClick={flag ? deleteUser : null} disabled={isSubmitting}>{flag ? '탈퇴' : '완료'}</InputBtn>
+                    <InputBtn onClick={flag ? deleteUserHandler : null} disabled={isSubmitting}>{flag ? '탈퇴' : '완료'}</InputBtn>
                 </BtnArea>
             </UserInfoArea>
 
