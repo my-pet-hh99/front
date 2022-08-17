@@ -3,9 +3,10 @@ import styled from "styled-components";
 import Modal from "react-modal"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import logo from '../../src_assets/logo.png'
 import OnFileUpload from "../../s3/FileUpload";
+
 
 const ModalPopup = ({isOpen, closeModal}) => {
   const navigate = useNavigate();
@@ -33,13 +34,13 @@ const ModalPopup = ({isOpen, closeModal}) => {
 
   // post 저장
   const onSubmitHandler = (post) => {
-    axios.post('http://localhost:3001/post', post)
+    // axios.post('http://localhost:3001/post', post)
+    axios.post('api/post', post)
     .then( res => {
-      console.log(res)
       alert('포스팅 성공')
       navigate('/')
     })
-    .catch( err => {console.log(err)})
+    .catch( error => {console.log(error)})
   };
 
 
@@ -51,8 +52,7 @@ const ModalPopup = ({isOpen, closeModal}) => {
         ariaHideApp={false}
     >
         <StModalForm
-          onSubmit={(e)=>{
-            onSubmitHandler(post)}}
+          onSubmit={()=>{onSubmitHandler(post)}}
         >
           <StModalImage>
             {
@@ -62,21 +62,23 @@ const ModalPopup = ({isOpen, closeModal}) => {
             }
           </StModalImage>
           <StModalFileUpload
+            required="true"
             type='file'
             accept="image/jpeg, image/jpg, image/png"
             onChange={(e) => {
               OnFileUpload(e)
               readFile(e.target.files[0])
-              setPost({...post, imageUrl:`https://mypet-upload-image.s3.ap-northeast-2.amazonaws.com/${e.target.files[0].name}`},{});
               setChange(true)
             }}
           />
           <StModalText
+            required="true"
             maxLength={150}
             placeholder="내용을 입력하세요. (최대 150자)"
             onChange={(e) => {
               const {value} = e.target;
               setPost({...post, text: value},{});
+              setPost({...post, imageUrl:`https://mypet-upload-image.s3.ap-northeast-2.amazonaws.com/${e.target.files[0].name}`},{});
             }}
           />
           <StModalBtns>
