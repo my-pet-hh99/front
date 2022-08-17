@@ -6,7 +6,7 @@ export const getPosts = createAsyncThunk(
   "GET_POSTS",
   async (offset) => {
     try {
-      const {resp} = await axios.get(`?offset=${offset}`);
+      const {resp} = await axios.get(`post?offset=${offset}`);
       return (
         resp.data
       )
