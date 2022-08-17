@@ -46,7 +46,7 @@ const PostList = () => {
                 {post.createdAt}
               </p>
             </StPostCardHead>
-            <StPostImage src={logo} alt='이미지를 불러올 수 없습니다'/>
+            <StPostImage src={post.imageUrl} alt='이미지를 불러올 수 없습니다'/>
             <StPostText>
               {post.text}
               {
