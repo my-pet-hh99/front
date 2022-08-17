@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Modal from "react-modal"
-import axios from "axios";
+import axios from "../../axios/axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import logo from '../../src_assets/logo.png'
@@ -35,7 +35,7 @@ const ModalPopup = ({isOpen, closeModal}) => {
   // post 저장
   const onSubmitHandler = (post) => {
     // axios.post('http://localhost:3001/post', post)
-    axios.post('api/post', post)
+    axios.post('/post', post)
     .then( res => {
       alert('포스팅 성공')
       navigate('/')
