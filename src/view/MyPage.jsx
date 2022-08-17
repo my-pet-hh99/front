@@ -71,7 +71,12 @@ const MyPage = () => {
                 submitData[key] = data[key]
             }
         }
-        modifyUserInfo(data)
+        modifyUserInfo(submitData).then(answer => {
+            if(answer.result) {
+                successAlert('modify')
+            }
+            setFlag(!flag)
+        })
     }
 
     useEffect(() => {

@@ -6,7 +6,8 @@ import { getCookie, setCookie } from '../util/cookie'
 export const emailDoubleCheck = async (email) => {
     let answer = true
     try {
-        const res = await axios.get(`/user/emailCheck`, {
+
+        const res = await axios.get(`/user/email`, {
             params: { email }
         })
         answer = !res.data.result
@@ -64,7 +65,7 @@ export const logout = async () => {
 export const findPassword = async (data) => {
     let answer = { result: null }
     try {
-        const res = await axios.post('/user/lostPassword', data)
+        const res = await axios.patch('/user/password', data)
         answer.result = res.data.result
     } catch (err) {
         answer.message = err.response.data.message
