@@ -49,11 +49,14 @@ const Header = () => {
 export default Header
 
 const StHeader = styled.header`
+  position: sticky; top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 800px;
   padding: 15px 0px;
+  background: white;
+  margin-bottom: 10px;
 `
 
 const StHeaderlogo = styled.div`
