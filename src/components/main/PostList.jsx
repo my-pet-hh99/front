@@ -14,7 +14,7 @@ const PostList = () => {
   // 무한스크롤
   const [lastRef, lastCard] = useInView({
     threshold: 0.8,
-    // triggerOnce: true,
+    triggerOnce: true,
   });
 
   useEffect(()=>{
@@ -26,20 +26,14 @@ const PostList = () => {
     getPosts()
   },[])
 
-  console.log(offset)
-
   useEffect(()=>{
     const getPostsScroll = async () => {
       if(posts.length!==0) {
         const data = await axios.get(`/post?offset=${offset}`)
-        setPosts([...posts, data.data.posts])
-        setOffset(offset+1)
       }
     }
     getPostsScroll()
   },[lastCard])
-
-  console.log(offset)
 
   return(
     <>
@@ -52,7 +46,7 @@ const PostList = () => {
             <StPostCardHead>
               <h3>{post.author}</h3>
               <p>
-                {post.createdAt}
+                작성일 {post.createdAt.slice(5,10)}
               </p>
             </StPostCardHead>
             <StPostImage src={post.imageUrl} alt='이미지를 불러올 수 없습니다'/>
