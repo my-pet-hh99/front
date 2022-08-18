@@ -20,7 +20,7 @@ const Router = () => {
     return(
         <Routes>
             <Route path='/' element={<Main/>}/>
-            <Route path='/detail' element={<Detail/>}/>
+            <Route path='/detail/:postId' element={<Detail/>}/>
             <Route path='/login' element={user.loginUser ? <Navigate to="/"/> : <LoginForm/>}/>
             <Route path='/signup' element={user.loginUser ? <Navigate to="/"/> : <LoginForm/>}/>
             <Route path='/mypage' element={user.loginUser ? <MyPage/> : <Navigate to="/"/>}/>
