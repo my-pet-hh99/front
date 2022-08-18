@@ -9,10 +9,12 @@ const DetailPost = () => {
 
   const nav = useNavigate();
   const { postId } = useParams();
+  // const resp = RESP.data[postId];
   const [posts, setPosts] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
   const Amend_ref = useRef();
-  const [editPosts, serEditPosts] = useState({
+  
+  const [editPosts, setEditPosts] = useState({
     text: "우리새끼"
   });
   const amendToggle = (e) => {
@@ -45,7 +47,7 @@ console.log(posts)
       <Contents>
         <div>
           <ContentsTop>
-            <div>{posts[0]?.author}</div>
+            <div>author</div>
             <div>날짜</div>
           </ContentsTop>
           {/* <div>{posts[0]?.text}</div>     옵셔널체이닝 */}
@@ -54,15 +56,15 @@ console.log(posts)
             type="text"
             defaultValue={posts[0]?.text}
             onChange={(e) => {
+              e.preventDefault()   
               const { value } = e.target;
               setPosts({ ...posts, text: value });
-              
             }}
             const disabled={isDisabled}
           />
           <ButtonArea>
             {
-              isDisabled == true ?
+              isDisabled === true ?
                 <AmendButton onClick={(e) => amendToggle(e)}>수정</AmendButton>
                 : <AmendButton onClick={(e) => 
                    {e.preventDefault()
@@ -150,5 +152,6 @@ const DeleteButton = styled.button`
 `;
 
 const AmendInput = styled.input`
-    
+     width: 560px;
+    height: 160px;
 `;
