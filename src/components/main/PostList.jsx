@@ -98,7 +98,6 @@ const StPostImage = styled.img`
   width: 340px;
   height: 340px;
   margin: auto;
-  border: 2px solid #df8897;
   border-radius: 7px;
 `
 
