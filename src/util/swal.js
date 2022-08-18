@@ -22,6 +22,7 @@ export const errorAlert = (type, message) => {
         '/signup': '회원가입',
         'findPw' : '비밀번호 찾기',
         'modify' : '비밀번호 확인',
+        'modify2' : '회원수정',
         'delete' : '회원탈퇴',
         'findPw' : '비밀번호 찾기(사실은 변경)'
     }
