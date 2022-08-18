@@ -5,7 +5,6 @@ import { deleteComments } from "../../api/commentAPI";
 import axios from "../../axios/axios";
 
 const Comment = (props) => {
-  console.log(props)
   const user = useSelector(state => state.user)
   const item = props.comments;
   const itemWriteDate = new Date(item?.createdAt).toLocaleDateString("ko-KR", {
