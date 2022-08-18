@@ -131,14 +131,13 @@ const MyPage = () => {
                 </BtnArea>
             </UserInfoArea>
 
-            <div style={{marginTop: '30px'}}>여긴 내게시글 목록임</div>
+            <div style={{marginTop: '30px'}}></div>
 
         </MyPageLayout>
     )
 }
 
 const MyPageLayout = styled(Layout)`
-    margin-top: 30px;
     flex-flow: column;
 `
 
