@@ -1,42 +1,52 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { getPosts } from "../../redux/modules/posts";
 import { useInView } from "react-intersection-observer";
 import styled from "styled-components";
+import axios from "../../axios/axios";
 
 const PostList = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const [offset, setOffset] = useState(0);
+  const [posts, setPosts] = useState([]);
 
   // 무한스크롤
   const [lastRef, lastCard] = useInView({
     threshold: 0.8,
-    triggerOnce: true,
+    // triggerOnce: true,
   });
 
-  const [offset, setOffset] = useState(0);
-  
-  useEffect(()=> {
-    dispatch(getPosts(offset))
-    setOffset((prev) => prev+1)
+  useEffect(()=>{
+    const getPosts = async () => {
+      const data = await axios.get(`/post?offset=${offset}`)
+      setPosts(data.data.posts)
+      setOffset(offset+1)
+    }
+    getPosts()
   },[])
 
-  useEffect(()=> {
-    if (lastCard) {
-    dispatch(getPosts(offset))
-    setOffset((prev) => prev+1)
-  }}, [lastCard])
-  
-  const posts = useSelector((state) => state.posts);
+  console.log(offset)
+
+  useEffect(()=>{
+    const getPostsScroll = async () => {
+      if(posts.length!==0) {
+        const data = await axios.get(`/post?offset=${offset}`)
+        setPosts([...posts, data.data.posts])
+        setOffset(offset+1)
+      }
+    }
+    getPostsScroll()
+  },[lastCard])
+
+  console.log(offset)
 
   return(
     <>
       {
-        [...posts]?.map((post)=> {
+        posts.map((post, i)=> {
           return (
-          <StPostCard key={post.postId} ref={lastRef} 
+          <StPostCard key={i} ref={i = posts.length-1?lastRef:null}
             onClick={()=>{navigate(`/detail/${post.postId}`)}}
           >
             <StPostCardHead>
