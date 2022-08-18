@@ -14,7 +14,7 @@ const PostList = () => {
   // 무한스크롤
   const [lastRef, lastCard] = useInView({
     threshold: 0.8,
-    triggerOnce: true,
+    // triggerOnce: true,
   });
 
   useEffect(()=>{
@@ -37,7 +37,6 @@ const PostList = () => {
     }
     getPostsScroll()
   },[lastCard])
-
   return(
     <>
       {
