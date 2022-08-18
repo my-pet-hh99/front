@@ -28,8 +28,11 @@ const PostList = () => {
 
   useEffect(()=>{
     const getPostsScroll = async () => {
-      if(posts.length!==0) {
+      // 여기 바꿈
+      if(lastCard) {
         const data = await axios.get(`/post?offset=${offset}`)
+        setPosts([...posts, ...data.data.posts ])
+        setOffset(offset+1)
       }
     }
     getPostsScroll()
