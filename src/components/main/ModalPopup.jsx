@@ -33,11 +33,11 @@ const ModalPopup = ({isOpen, closeModal}) => {
   };
 
   // post 저장
-  const onSubmitHandler = (post) => {
+  const onSubmitHandler = (event) => {
+    event.preventDefault()
     axios.post(`/post`, post)
     .then( res => {
       alert('포스팅 성공')
-      navigate('/')
     })
     .catch( error => {console.log(error)})
   };
@@ -59,7 +59,7 @@ const ModalPopup = ({isOpen, closeModal}) => {
             }
           </StModalImage>
           <StModalFileUpload
-            // required="true"
+            required
             type='file'
             accept="image/jpeg, image/jpg, image/png"
             onChange={(e) => {
@@ -70,18 +70,20 @@ const ModalPopup = ({isOpen, closeModal}) => {
             }}
           />
           <StModalText
-            required="true"
+            required
             maxLength={150}
             placeholder="내용을 입력하세요. (최대 150자)"
             onChange={(e) => {
               const {value} = e.target;
               setPost({...post, text: value},{});
-              console.log(post)
             }}
           />
           <StModalBtns>
-            <button onSubmit={onSubmitHandler}>저장</button>
-            <button onClick={closeModal}>닫기</button>
+            <button onClick={onSubmitHandler}>저장</button>
+            <button onClick={(e) => {
+              e.preventDefault()
+              closeModal()
+            }}>닫기</button>
           </StModalBtns>
         </StModalForm>
     </Modal>
