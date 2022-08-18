@@ -45,9 +45,9 @@ const ModalPopup = ({isOpen, closeModal}) => {
         alert('포스팅 성공')
         window.location.reload()
     })
-    .catch( error => {console.log(error)
+    .catch( error => {
+      console.log(error)
       alert("로그인 이후 이용해주세요")
-      
     })
     closeModal()    
   };

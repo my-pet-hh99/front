@@ -76,7 +76,7 @@ const MyPage = () => {
                 successAlert('modify')
             }
             else {
-                errorAlert('modify', answer.message)
+                errorAlert('modify2', answer.message)
             }
             setFlag(!flag)
         })
