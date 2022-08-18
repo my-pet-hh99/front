@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { deleteComments } from "../../api/commentAPI";
 import axios from "../../axios/axios";
 
 const Comment = (props) => {
+  console.log(props)
+  const user = useSelector(state => state.user)
   const item = props.comments;
   const itemWriteDate = new Date(item?.createdAt).toLocaleDateString("ko-KR", {
     year: "numeric",
@@ -50,30 +53,30 @@ const Comment = (props) => {
     })
   };
   return (
-    <div>
-      <PostInfo>
-        <UserInfo>
-          <div>
-            <div style={{ display: "flex" }}>
-              <UserName>{item?.author}</UserName>
-              <Userdate>{itemWriteDate}</Userdate>
-            </div>
-
-            {disabled ? (
-              <UserContent
-                disabled={disabled}
-                value={coContents.coContents}
-                onChange={onChange}
-                style={{ border: "none" }}
-              />
-            ) : (
-              <UserContent
-                disabled={disabled}
-                value={coContents.coContents}
-                onChange={onChange}
-              />
-            )}
+    <PostInfo>
+      <UserInfo>
+        <div>
+          <div style={{ display: "flex" }}>
+            <UserName>{item?.author}</UserName>
+            <Userdate>{itemWriteDate}</Userdate>
           </div>
+
+          {disabled ? (
+            <UserContent
+              disabled={disabled}
+              value={coContents.coContents}
+              onChange={onChange}
+              style={{ border: "none" }}
+            />
+          ) : (
+            <UserContent
+              disabled={disabled}
+              value={coContents.coContents}
+              onChange={onChange}
+            />
+          )}
+        </div>
+        {+user.loginUser === +props.comments.userId ?
           <ButtonArea>
             <Btn onClick={disabled ? onToggle : done}>
               {disabled ? "수정" : "완료"}
@@ -85,10 +88,9 @@ const Comment = (props) => {
             >
               삭제
             </Btn>
-          </ButtonArea>
-        </UserInfo>
-      </PostInfo>
-    </div>
+          </ButtonArea> : ''}
+      </UserInfo>
+    </PostInfo>
   );
 };
 
@@ -103,8 +105,10 @@ const PostInfo = styled.div`
 `;
 
 const UserInfo = styled.div`
+  width: 100%;
   height: 70px;
   margin-left: 15px;
+  display: flex; justify-content: space-between; align-items: center;
 `;
 
 const UserName = styled.p`
