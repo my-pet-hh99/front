@@ -35,6 +35,7 @@ const ModalPopup = ({isOpen, closeModal}) => {
   // post 저장
   const onSubmitHandler = (event) => {
     event.preventDefault()
+
     if (post.imageUrl==""||post.text==""){
       alert("내용을 기입해주세요")
       return
