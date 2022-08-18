@@ -108,7 +108,6 @@ export default CommentArea;
 
 const CmArea = styled.div`
   margin-top: 20px;
-  border-top: 1px solid pink;
   padding: 15px;
   background-color: #fff;
 `;
