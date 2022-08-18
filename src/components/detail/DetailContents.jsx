@@ -2,13 +2,13 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import {useSelector} from "react-redux"
-
 import axios from "../../axios/axios";
 
 const DetailPost = () => {
 
   const nav = useNavigate();
   const { postId } = useParams();
+
   const [posts, setPosts] = useState(null);
   const Amend_ref = useRef();
 
@@ -37,9 +37,6 @@ const DetailPost = () => {
       alert('게시글이 없습니다.')
     }
   };
-
-
-
   // const editHandler = async (editPosts) => {
   //   await axios.patch(`http://localhost:3001/posts?postId=${postId}`, editPosts);
   // };
@@ -61,6 +58,7 @@ const DetailPost = () => {
   useEffect(() => {
     getPosts();
   }, []);
+
 
   return (
     <div className="fcc" style={{flexFlow: 'column'}}>
@@ -101,6 +99,7 @@ const DetailPost = () => {
 
 export default DetailPost;
 
+
 const ImageBox = styled.img`
   width: 50%;
   height: 300px;
@@ -121,20 +120,19 @@ const Contents = styled.form`
   width: 600px;
   height: 250px;
   
+
   border: 1px solid pink;
   border-radius: 25px;
   padding: 20px;
   margin-top: 10px;
-
 `;
 
 const ButtonArea = styled.button`
   margin-top: 3px;
   & > button {
   margin-right: 10px;
-  
   }
-
+  
   border:0 solid black;
   background-color: rgba(255, 204, 204, 0.1);
 `;
