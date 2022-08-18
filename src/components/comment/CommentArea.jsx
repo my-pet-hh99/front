@@ -22,7 +22,6 @@ const CommentArea = () => {
   const getList = () => {
     readAllComments(page, params).then((answer) => {
       setList(answer.list);
-      console.log(answer.listLength)
       let pasingNumber = [];
       for (let i = 0; i < answer.listLength / 3; i++) {
         pasingNumber.push(i + 1);
