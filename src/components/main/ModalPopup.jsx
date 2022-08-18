@@ -34,7 +34,7 @@ const ModalPopup = ({isOpen, closeModal}) => {
 
   // post 저장
   const onSubmitHandler = (post) => {
-    axios.post('/post', post)
+    axios.post(`/post`, post)
     .then( res => {
       alert('포스팅 성공')
       navigate('/')
@@ -50,9 +50,7 @@ const ModalPopup = ({isOpen, closeModal}) => {
 			  onRequestClose={closeModal}
         ariaHideApp={false}
     >
-        <StModalForm
-          onSubmit={()=>{onSubmitHandler(post)}}
-        >
+        <StModalForm>
           <StModalImage>
             {
               change ?
@@ -61,13 +59,14 @@ const ModalPopup = ({isOpen, closeModal}) => {
             }
           </StModalImage>
           <StModalFileUpload
-            required="true"
+            // required="true"
             type='file'
             accept="image/jpeg, image/jpg, image/png"
             onChange={(e) => {
               OnFileUpload(e)
               readFile(e.target.files[0])
               setChange(true)
+              setPost({...post, imageUrl:e.target.files[0].name},{});
             }}
           />
           <StModalText
@@ -77,11 +76,11 @@ const ModalPopup = ({isOpen, closeModal}) => {
             onChange={(e) => {
               const {value} = e.target;
               setPost({...post, text: value},{});
-              setPost({...post, imageUrl:`${e.target.files[0].name}`},{});
+              console.log(post)
             }}
           />
           <StModalBtns>
-            <button>저장</button>
+            <button onSubmit={onSubmitHandler}>저장</button>
             <button onClick={closeModal}>닫기</button>
           </StModalBtns>
         </StModalForm>

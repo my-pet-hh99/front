@@ -41,9 +41,9 @@ const PostList = () => {
   return(
     <>
       {
-        posts.map((post, i)=> {
+        posts.map((post, postID)=> {
           return (
-          <StPostCard key={i} ref={i = posts.length-1?lastRef:null}
+          <StPostCard key={postID} ref={postID == posts.length-1?lastRef:null}
             onClick={()=>{navigate(`/detail/${post.postId}`)}}
           >
             <StPostCardHead>
