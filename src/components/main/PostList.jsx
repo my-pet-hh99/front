@@ -69,6 +69,7 @@ const PostList = () => {
 export default PostList
 
 const StPostCard = styled.div`
+  cursor: pointer;
   width: 400px;
   height: 500px;
   margin: 10px auto;
@@ -105,6 +106,9 @@ const StPostText = styled.div`
   height: 90px;
   margin: 5px auto;
   padding: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   & p{
       position: absolute;
       right: -10px;
