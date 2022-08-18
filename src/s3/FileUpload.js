@@ -4,7 +4,7 @@ const OnFileUpload = (e) => {
     const ACCESS_KEY = process.env.REACT_APP_S3_ACCESS_KEY;
     const SECRET_ACCESS_KEY = process.env.REACT_APP_S3_SECRET_KEY;
     const REGION = "ap-northeast-2";
-    const S3_BUCKET = "mypet-upload-image";
+    const S3_BUCKET = "mypet-back";
 
     // AWS ACCESS KEY를 세팅합니다.
     AWS.config.update({
@@ -30,7 +30,6 @@ const OnFileUpload = (e) => {
     
     myBucket.putObject(params)
       .on('httpUploadProgress', (evt) => {
-        alert("이미지를 업로드 중입니다...")
       })
       .send((err) => {
         if (err) console.log(err)
