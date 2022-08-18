@@ -6,14 +6,14 @@ export const getUserInfo = async () => {
         const res = await axios.get('/user/me')
         return res.data.data
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 }
 
 export const checkPassword = async (password) => {
     let answer = {result: null}
     try {
-        const res = await axios.get('/user/pwCheck', {
+        const res = await axios.get('/user/me/password', {
             params: { password }
         })
         answer.result = res.data.result
@@ -24,14 +24,17 @@ export const checkPassword = async (password) => {
     return answer
 }
 
-// 구현 안됨
+
 export const modifyUserInfo = async (data) => {
+    let answer = {result: null}
     try {
         const res = await axios.put('/user/me', data)
-        console.log(res)
+        answer.result = res.data.result
     } catch (err) {
-        console.log(err)
+        answer.result = err.response.data.result
+        answer.message = err.response.data.message
     }
+    return answer
 }
 
 export const deleteUser = async (password) => {
