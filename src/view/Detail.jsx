@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import Layout from "../components/common/Layout";
-import DetailImage from "../components/DetailImage";
-import DetailContents from "../components/DetailContents"
+import Header from "../components/Header"
+import DetailContents from "../components/detail/DetailContents"
 const Detail = () => {
     return (
         <Layout>
             <Box>
-                <DetailImage />
+                <Header/>
                 <DetailContents />
             </Box>
         </Layout>
