@@ -105,7 +105,6 @@ const StPostText = styled.div`
   height: 90px;
   margin: 5px auto;
   padding: 5px;
-  position: relative;
   & p{
       position: absolute;
       right: -10px;
