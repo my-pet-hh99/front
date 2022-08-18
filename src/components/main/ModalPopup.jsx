@@ -77,7 +77,7 @@ const ModalPopup = ({isOpen, closeModal}) => {
             onChange={(e) => {
               const {value} = e.target;
               setPost({...post, text: value},{});
-              setPost({...post, imageUrl:`https://mypet-upload-image.s3.ap-northeast-2.amazonaws.com/${e.target.files[0].name}`},{});
+              setPost({...post, imageUrl:`${e.target.files[0].name}`},{});
             }}
           />
           <StModalBtns>

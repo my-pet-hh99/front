@@ -2,9 +2,12 @@ import React from "react";
 import { useState, useSelector } from "react";
 import styled from "styled-components";
 import ModalPopup from "./ModalPopup";
+import { useNavigate } from "react-router-dom";
 
 
 const PostInput = () => {
+  const navigate = useNavigate()
+
   const [isOpen, setIsOpen] = useState(false);
 
 
@@ -14,6 +17,7 @@ const PostInput = () => {
 
   const closeModal = () => {
     setIsOpen(false);
+    navigate("/")
   }
 
   const loginAlert = () => {
