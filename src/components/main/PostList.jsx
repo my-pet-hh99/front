@@ -26,33 +26,29 @@ const PostList = () => {
     getPosts()
   },[])
 
-  console.log(offset)
-
   useEffect(()=>{
     const getPostsScroll = async () => {
-      if(posts.length!==0) {
+      // 여기 바꿈
+      if(lastCard) {
         const data = await axios.get(`/post?offset=${offset}`)
-        setPosts([...posts, data.data.posts])
+        setPosts([...posts, ...data.data.posts ])
         setOffset(offset+1)
       }
     }
     getPostsScroll()
   },[lastCard])
-
-  console.log(offset)
-
   return(
     <>
       {
-        posts.map((post, i)=> {
+        posts.map((post, postID)=> {
           return (
-          <StPostCard key={i} ref={i = posts.length-1?lastRef:null}
+          <StPostCard key={postID} ref={postID == posts.length-1?lastRef:null}
             onClick={()=>{navigate(`/detail/${post.postId}`)}}
           >
             <StPostCardHead>
               <h3>{post.author}</h3>
               <p>
-                {post.createdAt}
+                작성일 {post.createdAt.slice(5,10)}
               </p>
             </StPostCardHead>
             <StPostImage src={post.imageUrl} alt='이미지를 불러올 수 없습니다'/>
@@ -101,7 +97,6 @@ const StPostImage = styled.img`
   width: 340px;
   height: 340px;
   margin: auto;
-  border: 2px solid #df8897;
   border-radius: 7px;
 `
 
