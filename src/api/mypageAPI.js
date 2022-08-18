@@ -24,6 +24,7 @@ export const checkPassword = async (password) => {
     return answer
 }
 
+
 export const modifyUserInfo = async (data) => {
     let answer = {result: null}
     try {

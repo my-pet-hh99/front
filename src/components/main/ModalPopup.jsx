@@ -34,7 +34,6 @@ const ModalPopup = ({isOpen, closeModal}) => {
 
   // post 저장
   const onSubmitHandler = (post) => {
-    // axios.post('http://localhost:3001/post', post)
     axios.post('/post', post)
     .then( res => {
       alert('포스팅 성공')
