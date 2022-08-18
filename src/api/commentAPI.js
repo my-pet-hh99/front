@@ -6,7 +6,6 @@ export const readAllComments = async (page, postId) => {
         const res = await axios.get(`/comment/${postId}`);
         answer.result = res.data.result
         answer.list = res.data.data.slice(page * 3, page * 3 + 3)
-        console.log(answer.list)
         answer.listLength = res.data.data.length
     } catch(err) {
         // console.log(err)

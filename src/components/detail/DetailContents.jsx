@@ -1,106 +1,117 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import axios from "axios";
+import {useSelector} from "react-redux"
 
-import logo from "../../src_assets/logo.png"
+import axios from "../../axios/axios";
 
 const DetailPost = () => {
 
   const nav = useNavigate();
   const { postId } = useParams();
-  // const resp = RESP.data[postId];
-  const [posts, setPosts] = useState(0);
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [posts, setPosts] = useState(null);
   const Amend_ref = useRef();
-  
-  const [editPosts, setEditPosts] = useState({
-    text: "우리새끼"
+
+  // 정우 만든곳
+  const user = useSelector(state => state.user)
+  const writeDate = new Date(posts?.createdAt).toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
+  
+  // const [editPosts, setEditPosts] = useState({
+  //   text: ''
+  // });
   const amendToggle = (e) => {
     e.preventDefault()             //새로고침 방지
-    setIsDisabled(!isDisabled)  //재렌더링
-    
+    alert('기능 구현중입니다~')
+    // setIsDisabled(!isDisabled)  //재렌더링
   }
 
   const getPosts = async () => {
-    const { posts } = await axios.get(`http://localhost:3001/posts?postId=${postId}`);
-    setPosts(posts);
+    try {
+      const data = await axios.get(`/post/${postId}`);
+      setPosts(data.data.data)
+    } catch(err) {
+      alert('게시글이 없습니다.')
+    }
   };
+
+
+
+  // const editHandler = async (editPosts) => {
+  //   await axios.patch(`http://localhost:3001/posts?postId=${postId}`, editPosts);
+  // };
+
+  const deleteHandler = (e) => {
+    e.preventDefault()
+    const data = axios.delete(`/post/${postId}`);
+    data
+    .then((answer)=>{
+      console.log(answer)
+      nav('/')
+    })
+    .catch((err) => {
+      alert('게시글 삭제를 실패하셨습니다.')
+    })
+
+  };
+
   useEffect(() => {
     getPosts();
   }, []);
 
-const editHandler = async (editPosts) => {
-  await axios.patch(`http://localhost:3001/posts?postId=${postId}`, editPosts);
-};
-
- const deleteHandler = (postId) => {
-    axios.delete(`http://localhost:3001/posts?postId/${postId}`);
-    
-  };
-
-console.log(posts)
   return (
-    <>
-      <ImageBox src={logo} alt="이미지를 불러올수 없습니다." />
+    <div className="fcc" style={{flexFlow: 'column'}}>
+      <ImageBox src={posts?.imageUrl} alt="이미지를 불러올수 없습니다." />
       <Contents>
         <div>
           <ContentsTop>
-            <div>author</div>
-            <div>날짜</div>
+            <div>{posts?.author}</div>
+            <div>{writeDate}</div>
           </ContentsTop>
           {/* <div>{posts[0]?.text}</div>     옵셔널체이닝 */}
           <AmendInput
             ref={Amend_ref}
             type="text"
-            defaultValue={posts[0]?.text}
-            onChange={(e) => {
-              e.preventDefault()   
-              const { value } = e.target;
-              setPosts({ ...posts, text: value });
-            }}
-            const disabled={isDisabled}
+            defaultValue={posts?.text}
+            // onChange={(e) => {
+            //   const { value } = e.target;
+            // }}
+            disabled={true}
           />
+          
+          {+user.loginUser === +posts?.userId ?
           <ButtonArea>
-            {
-              isDisabled === true ?
-                <AmendButton onClick={(e) => amendToggle(e)}>수정</AmendButton>
-                : <AmendButton onClick={(e) => 
+            <AmendButton onClick={amendToggle}>수정</AmendButton>
+                {/* <AmendButton onClick={(e) => 
                    {e.preventDefault()
                     editHandler(e)}
-                   } >완료</AmendButton>
-            }
-            <DeleteButton onClick={(e) => deleteHandler(posts)}>삭제</DeleteButton>
-
-          </ButtonArea>
+                   } >완료</AmendButton> */}
+            <DeleteButton onClick={deleteHandler}>삭제</DeleteButton>
+          </ButtonArea> : null}
+          
         </div>
       </Contents>
-    </>
+    </div>
   )
 };
 
 
 export default DetailPost;
 
-const ImageBox = styled.div`
-  width: 100%;
-  vertical-align: middle;
+const ImageBox = styled.img`
+  width: 50%;
   height: 300px;
-  margin: auto;
-  background-position: center;
-  background-size:cover ;
+  border: 2px solid rgb(255,204,204);
+  border-radius: 25px;
+  padding: 10px;
 `;
 
 const ContentsTop = styled.div`
-
-  display: flex;
+  display: flex; justify-content:space-between ;
   width: 560px;
-  justify-content:space-between ;
-
-  margin: auto;
-
-
 `;
 
 const Contents = styled.form`
@@ -110,17 +121,17 @@ const Contents = styled.form`
   width: 600px;
   height: 250px;
   
-  margin: auto;
   border: 1px solid pink;
   border-radius: 25px;
   padding: 20px;
+  margin-top: 10px;
+
 `;
 
 const ButtonArea = styled.button`
-  
   margin-top: 3px;
   & > button {
-  margin-right: 3px;
+  margin-right: 10px;
   
   }
 
@@ -128,7 +139,8 @@ const ButtonArea = styled.button`
   background-color: rgba(255, 204, 204, 0.1);
 `;
 const AmendButton = styled.button`
-      width: 45px;
+    cursor: pointer;
+    width: 45px;
     height: 30px;
 
     border: 2px solid;
@@ -140,6 +152,7 @@ const AmendButton = styled.button`
 `;
 
 const DeleteButton = styled.button`
+    cursor: pointer;
     width: 45px;
     height: 30px;
 
