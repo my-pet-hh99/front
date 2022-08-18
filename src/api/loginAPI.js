@@ -64,7 +64,6 @@ export const logout = async () => {
 export const findPassword = async (data) => {
     let answer = { result: null }
     try {
-
         const res = await axios.patch('/user/password', data)
         answer.result = res.data.result
     } catch (err) {
