@@ -5,8 +5,7 @@ import { deleteComments } from "../../api/commentAPI";
 import axios from "../../axios/axios";
 
 const Comment = (props) => {
-  console.log(props)
-  const user = useSelector(state => state.user)
+  const user = useSelector((state) => state.user);
   const item = props.comments;
   const itemWriteDate = new Date(item?.createdAt).toLocaleDateString("ko-KR", {
     year: "numeric",
@@ -31,7 +30,7 @@ const Comment = (props) => {
   // 버튼으로 disabled 값 변경하기
   const [disabled, setDisabled] = useState(true);
   const onToggle = (e) => {
-    alert('기능 구현중입니다!')
+    alert("기능 구현중입니다!");
     // setDisabled(!disabled);
   };
 
@@ -46,11 +45,11 @@ const Comment = (props) => {
   };
 
   const deleteHandler = (commentId) => {
-    deleteComments(commentId).then(answer => {
-      if(answer.result) {
+    deleteComments(commentId).then((answer) => {
+      if (answer.result) {
         props.getList();
       }
-    })
+    });
   };
   return (
     <PostInfo>
@@ -62,25 +61,14 @@ const Comment = (props) => {
           </div>
 
           {disabled ? (
-            <UserContent
-              disabled={disabled}
-              value={coContents.coContents}
-              onChange={onChange}
-              style={{ border: "none" }}
-            />
+            <UserContent disabled={disabled} value={coContents.coContents} onChange={onChange} style={{ border: "none" }} />
           ) : (
-            <UserContent
-              disabled={disabled}
-              value={coContents.coContents}
-              onChange={onChange}
-            />
+            <UserContent disabled={disabled} value={coContents.coContents} onChange={onChange} />
           )}
         </div>
-        {+user.loginUser === +props.comments.userId ?
+        {+user.loginUser === +props.comments.userId ? (
           <ButtonArea>
-            <Btn onClick={disabled ? onToggle : done}>
-              {disabled ? "수정" : "완료"}
-            </Btn>
+            <Btn onClick={disabled ? onToggle : done}>{disabled ? "수정" : "완료"}</Btn>
             <Btn
               onClick={() => {
                 deleteHandler(commentId);
@@ -88,7 +76,10 @@ const Comment = (props) => {
             >
               삭제
             </Btn>
-          </ButtonArea> : ''}
+          </ButtonArea>
+        ) : (
+          ""
+        )}
       </UserInfo>
     </PostInfo>
   );
@@ -108,7 +99,9 @@ const UserInfo = styled.div`
   width: 100%;
   height: 70px;
   margin-left: 15px;
-  display: flex; justify-content: space-between; align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const UserName = styled.p`
@@ -139,14 +132,14 @@ const ButtonArea = styled.div`
 
 const Btn = styled.button`
   cursor: pointer;
-  border: 1px solid rgb(255,204,204);
+  border: 1px solid rgb(255, 204, 204);
   border-radius: 25px;
   padding: 8px;
   font-size: 10px;
   color: white;
-  background: rgb(255,204,204);
+  background: rgb(255, 204, 204);
   &:hover {
-    color: rgb(255,204,204);
+    color: rgb(255, 204, 204);
     background: white;
   }
-`
+`;

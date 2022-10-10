@@ -30,7 +30,10 @@ const OnFileUpload = (e) => {
     
     myBucket.putObject(params)
       .on('httpUploadProgress', (evt) => {
+<<<<<<< HEAD
         alert("이미지를 업로드 중입니다...")
+=======
+>>>>>>> 196495e764f7ba8e42644a43bad7af14bc75e26c
       })
       .send((err) => {
         if (err) console.log(err)

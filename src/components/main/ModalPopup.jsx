@@ -3,7 +3,11 @@ import styled from "styled-components";
 import Modal from "react-modal"
 import axios from "../../axios/axios";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import { useState } from "react";
+=======
+import { useState, useEffect } from "react";
+>>>>>>> 196495e764f7ba8e42644a43bad7af14bc75e26c
 import logo from '../../src_assets/logo.png'
 import OnFileUpload from "../../s3/FileUpload";
 
@@ -35,6 +39,7 @@ const ModalPopup = ({isOpen, closeModal}) => {
   // post 저장
   const onSubmitHandler = (event) => {
     event.preventDefault()
+<<<<<<< HEAD
     axios.post(`/post`, post)
     .then( res => {
       alert('포스팅 성공')
@@ -48,6 +53,30 @@ const ModalPopup = ({isOpen, closeModal}) => {
         style={customStyles}
     		isOpen={isOpen}
 			  onRequestClose={closeModal}
+=======
+
+    if (post.imageUrl==""||post.text==""){
+      alert("내용을 기입해주세요")
+      return
+    }
+    axios.post(`/post`, post)
+    .then( res => {
+        alert('포스팅 성공')
+        window.location.reload()
+    })
+    .catch( error => {
+      console.log(error)
+      alert("로그인 이후 이용해주세요")
+    })
+    closeModal()    
+  };
+
+  return(
+    <Modal 
+        style={customStyles}
+          isOpen={isOpen}
+          onRequestClose={closeModal}
+>>>>>>> 196495e764f7ba8e42644a43bad7af14bc75e26c
         ariaHideApp={false}
     >
         <StModalForm>
@@ -82,7 +111,11 @@ const ModalPopup = ({isOpen, closeModal}) => {
             <button onClick={onSubmitHandler}>저장</button>
             <button onClick={(e) => {
               e.preventDefault()
+<<<<<<< HEAD
               closeModal()
+=======
+              window.location.reload()
+>>>>>>> 196495e764f7ba8e42644a43bad7af14bc75e26c
             }}>닫기</button>
           </StModalBtns>
         </StModalForm>

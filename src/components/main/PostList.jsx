@@ -14,7 +14,11 @@ const PostList = () => {
   // 무한스크롤
   const [lastRef, lastCard] = useInView({
     threshold: 0.8,
+<<<<<<< HEAD
     triggerOnce: true,
+=======
+    // triggerOnce: true,
+>>>>>>> 196495e764f7ba8e42644a43bad7af14bc75e26c
   });
 
   useEffect(()=>{
@@ -37,7 +41,10 @@ const PostList = () => {
     }
     getPostsScroll()
   },[lastCard])
+<<<<<<< HEAD
 
+=======
+>>>>>>> 196495e764f7ba8e42644a43bad7af14bc75e26c
   return(
     <>
       {
@@ -70,6 +77,10 @@ const PostList = () => {
 export default PostList
 
 const StPostCard = styled.div`
+<<<<<<< HEAD
+=======
+  cursor: pointer;
+>>>>>>> 196495e764f7ba8e42644a43bad7af14bc75e26c
   width: 400px;
   height: 500px;
   margin: 10px auto;
@@ -98,7 +109,10 @@ const StPostImage = styled.img`
   width: 340px;
   height: 340px;
   margin: auto;
+<<<<<<< HEAD
   border: 2px solid #df8897;
+=======
+>>>>>>> 196495e764f7ba8e42644a43bad7af14bc75e26c
   border-radius: 7px;
 `
 
@@ -107,7 +121,13 @@ const StPostText = styled.div`
   height: 90px;
   margin: 5px auto;
   padding: 5px;
+<<<<<<< HEAD
   position: relative;
+=======
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+>>>>>>> 196495e764f7ba8e42644a43bad7af14bc75e26c
   & p{
       position: absolute;
       right: -10px;

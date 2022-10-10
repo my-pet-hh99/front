@@ -37,6 +37,10 @@ const PostInput = () => {
 export default PostInput
 
 const StPostModalBtn = styled.button`
+<<<<<<< HEAD
+=======
+  position: sticky; top: 150px;
+>>>>>>> 196495e764f7ba8e42644a43bad7af14bc75e26c
   border: solid 4px #ffd9df;
   border-radius: 20px;
   width: 550px;
@@ -51,4 +55,8 @@ const StPostModalBtn = styled.button`
   }
   :focus {outline:none}
   cursor: text;
+<<<<<<< HEAD
+=======
+  background: white;
+>>>>>>> 196495e764f7ba8e42644a43bad7af14bc75e26c
 `;

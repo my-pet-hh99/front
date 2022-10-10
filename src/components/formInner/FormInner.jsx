@@ -35,7 +35,11 @@ const FormInner = (props) => {
 
         // 실패용 멘트
         emailDif: '이메일 이상한데..?',
+<<<<<<< HEAD
         nicknameDif: '1자 ~ 10자 사이로 작성해야해요!',
+=======
+        nicknameDif: '2자 ~ 10자 사이로 작성해야해요!',
+>>>>>>> 196495e764f7ba8e42644a43bad7af14bc75e26c
         passwordDif: props.pathnameCheck ? '8자 이상, 특수 문자(@$!%*#?&)와 숫자 각 한개 이상이 필요해요!' : '8자 이상, 특수문자와 숫자 각 1개!',
     
         // dup 멘트
@@ -61,7 +65,11 @@ const FormInner = (props) => {
         if(reg && reg.test(target.value)) flag = true
         else if(!reg) {
             flag = true
+<<<<<<< HEAD
             if(props.type === 'nickname' && target.value.length > 8) flag = false
+=======
+            if(props.type === 'nickname' && (target.value.length > 10 || target.value.length < 2)) flag = false
+>>>>>>> 196495e764f7ba8e42644a43bad7af14bc75e26c
         }
         htRef.current.innerText = flag ? helpText[props.type + 'Suc'] : helpText[props.type + 'Dif']
         htRef.current.style.color = flag ? 'green' : 'red'
@@ -119,6 +127,9 @@ const FormInner = (props) => {
             value: reg,
         }
     } else if (props.type === 'nickname') {
+        registerOpt.minLength = {
+            value: 2,
+        }
         registerOpt.maxLength = {
             value: 10,
         }
